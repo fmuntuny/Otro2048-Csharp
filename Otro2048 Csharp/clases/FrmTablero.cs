@@ -11,24 +11,46 @@ namespace Otro2048_Csharp.clases
     {
         private Cuadrado cuadrado = new();
         private Tablero tablero;
-        private Button button1;
-        private Button button2;
-        private Button button3;
-        private Button button4;
-        private Label label1;
-        private Label label2;
+        private Button BtnArriba;
+        private Button BtnIzquierda;
+        private Button BtnAbajo;
+        private Button BtnDerecha;
+        private Label LblPuntos;
+        private Label LblMovidas;
         private GroupBox groupBox1;
         private RadioButton radioButton3;
         private RadioButton radioButton2;
         private RadioButton radioButton1;
+        private Button BtnReiniciar;
         private Panel PnlCuadrados;
-
+        private int cuadradosEnCero=16;
+        private ProcesaCuadrados procCuadrado;
+        private Label label1;
+        private int puntos;
         public FrmTablero()
         {
             InitializeComponent();
             Size = new Size(600, 413);
             Text = "Otro 2048 C# version";
             tablero = new Tablero(this);
+            procCuadrado = new ProcesaCuadrados(this);
+        }
+
+
+        //ESTO ESTA MODIFICADO PARA QUE MUESTRE LOS CEROS QUE QUEDAN, CAMBIARLO PARA QUE MUESTRE LOS PUNTOS
+        public void setPuntos(int puntosGanados)
+        {
+            puntos += puntosGanados;
+            LblPuntos.Text = "puntos: " + puntos;
+        }
+        public void setCuadradosEnCero(int cuadrados)
+        {
+            cuadradosEnCero = cuadrados;
+        }
+
+        public int getCuadradosEnCero()
+        {
+            return cuadradosEnCero;
         }
 
         public Panel getPnlCuadrados()
@@ -49,16 +71,18 @@ namespace Otro2048_Csharp.clases
         private void InitializeComponent()
         {
             this.PnlCuadrados = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.BtnArriba = new System.Windows.Forms.Button();
+            this.BtnIzquierda = new System.Windows.Forms.Button();
+            this.BtnAbajo = new System.Windows.Forms.Button();
+            this.BtnDerecha = new System.Windows.Forms.Button();
+            this.LblPuntos = new System.Windows.Forms.Label();
+            this.LblMovidas = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.radioButton3 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
+            this.BtnReiniciar = new System.Windows.Forms.Button();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -69,66 +93,74 @@ namespace Otro2048_Csharp.clases
             this.PnlCuadrados.Size = new System.Drawing.Size(393, 413);
             this.PnlCuadrados.TabIndex = 0;
             // 
-            // button1
+            // BtnArriba
             // 
-            this.button1.Location = new System.Drawing.Point(447, 271);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(48, 23);
-            this.button1.TabIndex = 1;
-            this.button1.Text = "Arriba";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click_1);
+            this.BtnArriba.Location = new System.Drawing.Point(436, 271);
+            this.BtnArriba.Name = "BtnArriba";
+            this.BtnArriba.Size = new System.Drawing.Size(48, 23);
+            this.BtnArriba.TabIndex = 1;
+            this.BtnArriba.TabStop = false;
+            this.BtnArriba.Text = "Arriba";
+            this.BtnArriba.UseVisualStyleBackColor = true;
+            this.BtnArriba.Click += new System.EventHandler(this.button1_Click_1);
             // 
-            // button2
+            // BtnIzquierda
             // 
-            this.button2.Location = new System.Drawing.Point(399, 300);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(48, 23);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Izq";
-            this.button2.UseVisualStyleBackColor = true;
+            this.BtnIzquierda.Location = new System.Drawing.Point(399, 300);
+            this.BtnIzquierda.Name = "BtnIzquierda";
+            this.BtnIzquierda.Size = new System.Drawing.Size(48, 23);
+            this.BtnIzquierda.TabIndex = 2;
+            this.BtnIzquierda.TabStop = false;
+            this.BtnIzquierda.Text = "Izq";
+            this.BtnIzquierda.UseVisualStyleBackColor = true;
+            this.BtnIzquierda.Click += new System.EventHandler(this.BtnIzquierda_Click);
             // 
-            // button3
+            // BtnAbajo
             // 
-            this.button3.Location = new System.Drawing.Point(447, 326);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(48, 23);
-            this.button3.TabIndex = 3;
-            this.button3.Text = "Abajo";
-            this.button3.UseVisualStyleBackColor = true;
+            this.BtnAbajo.Location = new System.Drawing.Point(436, 329);
+            this.BtnAbajo.Name = "BtnAbajo";
+            this.BtnAbajo.Size = new System.Drawing.Size(48, 23);
+            this.BtnAbajo.TabIndex = 3;
+            this.BtnAbajo.TabStop = false;
+            this.BtnAbajo.Text = "Abajo";
+            this.BtnAbajo.UseVisualStyleBackColor = true;
+            this.BtnAbajo.Click += new System.EventHandler(this.BtnAbajo_Click);
             // 
-            // button4
+            // BtnDerecha
             // 
-            this.button4.Location = new System.Drawing.Point(495, 300);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(48, 23);
-            this.button4.TabIndex = 4;
-            this.button4.Text = "Der";
-            this.button4.UseVisualStyleBackColor = true;
+            this.BtnDerecha.Location = new System.Drawing.Point(471, 300);
+            this.BtnDerecha.Name = "BtnDerecha";
+            this.BtnDerecha.Size = new System.Drawing.Size(48, 23);
+            this.BtnDerecha.TabIndex = 4;
+            this.BtnDerecha.TabStop = false;
+            this.BtnDerecha.Text = "Der";
+            this.BtnDerecha.UseVisualStyleBackColor = true;
+            this.BtnDerecha.Click += new System.EventHandler(this.BtnDerecha_Click);
             // 
-            // label1
+            // LblPuntos
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(400, 6);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(47, 15);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Puntos:";
+            this.LblPuntos.AutoSize = true;
+            this.LblPuntos.Location = new System.Drawing.Point(400, 6);
+            this.LblPuntos.Name = "LblPuntos";
+            this.LblPuntos.Size = new System.Drawing.Size(47, 15);
+            this.LblPuntos.TabIndex = 5;
+            this.LblPuntos.Text = "Puntos:";
             // 
-            // label2
+            // LblMovidas
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(400, 42);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 15);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Movidas:";
+            this.LblMovidas.AutoSize = true;
+            this.LblMovidas.Location = new System.Drawing.Point(400, 42);
+            this.LblMovidas.Name = "LblMovidas";
+            this.LblMovidas.Size = new System.Drawing.Size(55, 15);
+            this.LblMovidas.TabIndex = 6;
+            this.LblMovidas.Text = "Movidas:";
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.radioButton3);
             this.groupBox1.Controls.Add(this.radioButton2);
             this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Enabled = false;
             this.groupBox1.Location = new System.Drawing.Point(400, 78);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(119, 104);
@@ -143,7 +175,6 @@ namespace Otro2048_Csharp.clases
             this.radioButton3.Name = "radioButton3";
             this.radioButton3.Size = new System.Drawing.Size(55, 19);
             this.radioButton3.TabIndex = 2;
-            this.radioButton3.TabStop = true;
             this.radioButton3.Text = "Dificil";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
@@ -154,7 +185,6 @@ namespace Otro2048_Csharp.clases
             this.radioButton2.Name = "radioButton2";
             this.radioButton2.Size = new System.Drawing.Size(59, 19);
             this.radioButton2.TabIndex = 1;
-            this.radioButton2.TabStop = true;
             this.radioButton2.Text = "Medio";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
@@ -170,18 +200,41 @@ namespace Otro2048_Csharp.clases
             this.radioButton1.Text = "Facil";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
+            // BtnReiniciar
+            // 
+            this.BtnReiniciar.Location = new System.Drawing.Point(400, 188);
+            this.BtnReiniciar.Name = "BtnReiniciar";
+            this.BtnReiniciar.Size = new System.Drawing.Size(75, 23);
+            this.BtnReiniciar.TabIndex = 8;
+            this.BtnReiniciar.TabStop = false;
+            this.BtnReiniciar.Text = "Reiniciar";
+            this.BtnReiniciar.UseVisualStyleBackColor = true;
+            this.BtnReiniciar.Click += new System.EventHandler(this.button5_Click);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(420, 355);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(80, 15);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Use A, S, D, W";
+            // 
             // FrmTablero
             // 
             this.ClientSize = new System.Drawing.Size(588, 417);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.BtnReiniciar);
+            this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.LblMovidas);
+            this.Controls.Add(this.LblPuntos);
+            this.Controls.Add(this.BtnDerecha);
+            this.Controls.Add(this.BtnAbajo);
+            this.Controls.Add(this.BtnIzquierda);
+            this.Controls.Add(this.BtnArriba);
             this.Controls.Add(this.PnlCuadrados);
             this.Name = "FrmTablero";
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.FrmTablero_KeyPress);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
@@ -190,10 +243,105 @@ namespace Otro2048_Csharp.clases
         }
         private void button1_Click_1(object sender, EventArgs e)
         {
-            ProcesaCuadrados proc = new ProcesaCuadrados();
-            if (proc.limpiarCeros(this.getTablero().getArrayCuadradosDelTablero()))
+            if (cuadradosEnCero > 0)
             {
-                this.getTablero().refrescarTablero(this);
+                procCuadrado.sumarNumeros(this.getTablero().getArrayCuadradosDelTablero());
+            }
+            else
+            {
+                procCuadrado.verificaSiPerdio();
+            }
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.getTablero().generarTableroNuevo(this);
+        }
+
+        private void BtnRefrescar_Click(object sender, EventArgs e)
+        {
+            this.getTablero().refrescarTablero(this);
+        }
+
+        private void BtnAgregarCuadrado_Click(object sender, EventArgs e)
+        {
+            this.getTablero().setValorAzarCuadradoAzarSiValorEs0(1);
+        }
+
+        private void BtnDerecha_Click(object sender, EventArgs e)
+        {
+            if (cuadradosEnCero>0) { 
+            tablero.rotarTablero90DerechaXVeces(3);
+            procCuadrado.sumarNumeros(this.getTablero().getArrayCuadradosDelTablero());
+            tablero.rotarTablero90DerechaXVeces(1);
+            }
+            else
+            {
+                procCuadrado.verificaSiPerdio();
+            }
+        }
+
+        private void BtnIzquierda_Click(object sender, EventArgs e)
+        {
+            if (cuadradosEnCero > 0)
+            {
+                tablero.rotarTablero90DerechaXVeces(1);
+            procCuadrado.sumarNumeros(this.getTablero().getArrayCuadradosDelTablero());
+            tablero.rotarTablero90DerechaXVeces(3);
+            }
+            else
+            {
+                procCuadrado.verificaSiPerdio();
+            }
+        }
+
+        private void BtnAbajo_Click(object sender, EventArgs e)
+        {
+            if (cuadradosEnCero > 0)
+            {
+                tablero.rotarTablero90DerechaXVeces(2);
+            procCuadrado.sumarNumeros(this.getTablero().getArrayCuadradosDelTablero());
+            tablero.rotarTablero90DerechaXVeces(2);
+            }
+            else
+            {
+                procCuadrado.verificaSiPerdio();
+            }
+        }
+
+        private void BtnVerificaSumar_Click(object sender, EventArgs e)
+        {
+            procCuadrado.verificaSumaCuadrado(this.getTablero().getArrayCuadradosDelTablero());
+        }
+
+        private void BtnVerificaSiPerdio_Click(object sender, EventArgs e)
+        {
+            procCuadrado.verificaSiPerdio();
+        }
+
+        private void BtnLlenarTablero_Click(object sender, EventArgs e)
+        {
+            this.getTablero().generarTableroNuevoTesting(this);
+        }
+
+       
+
+        private void FrmTablero_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 119)
+            {
+                BtnArriba.PerformClick();
+            }else if (e.KeyChar == 100)
+            {
+                BtnDerecha.PerformClick();
+            }
+            else if(e.KeyChar == 115)
+            {
+                BtnAbajo.PerformClick();
+            }
+            else if(e.KeyChar == 97)
+            {
+                BtnIzquierda.PerformClick();
             }
         }
     }
